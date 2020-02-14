@@ -74,10 +74,10 @@ public class TransactionObjectEditor extends JDialog {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new Dimension(560, 760));
 		this.setSize(600, 760);
-		this.setTitle("XX编辑器");
 		parent = transactionObjectList;
 		resultFrame = parentForm;
 		type = t;
+		this.setTitle(type.name()+"修改器");
 		this.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
 		this.add(jLName);
 		this.add(jFName);
@@ -125,7 +125,7 @@ public class TransactionObjectEditor extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(jLSelectedDataObject.getSelectedIndex()>=0){
-					Object sel = jLDataObject.getSelectedValue();
+					Object sel = jLSelectedDataObject.getSelectedValue();
 					selectedDO.remove(sel);
 					jMSelectedDataObject =  new DefaultComboBoxModel(selectedDO.toArray());  //数据模型
 					jLSelectedDataObject.setModel(jMSelectedDataObject);
@@ -135,6 +135,17 @@ public class TransactionObjectEditor extends JDialog {
 					}
 					jMFieldObject =  new DefaultComboBoxModel(availableFO.toArray());  //数据模型
 					jLFieldObject.setModel(jMFieldObject);
+					List<FieldObject> toDelete = new ArrayList<FieldObject>();
+					for(FieldObject f:selectedFO){
+						if(!availableFO.contains(f)){
+							toDelete.add(f);
+						}
+					}
+					for(FieldObject f:toDelete){
+						selectedFO.remove(f);	
+					}
+					jMSelectedFieldObject =  new DefaultComboBoxModel(selectedFO.toArray());  //数据模型
+					jLSelectedFieldObject.setModel(jMSelectedFieldObject);
 				}				
 			}
 		});

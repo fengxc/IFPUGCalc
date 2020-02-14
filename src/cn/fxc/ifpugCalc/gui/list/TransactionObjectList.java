@@ -39,9 +39,9 @@ public class TransactionObjectList extends JDialog {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setSize(800, 600);
-		this.setTitle("XX管理器");
-		parentForm = r;
 		type = d;
+		this.setTitle(type.name()+"管理器");
+		parentForm = r;
 		transactionObjectList = parentForm.getCm().getTransactionObjectList(type);
 
 		initial();

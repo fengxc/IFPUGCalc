@@ -25,10 +25,25 @@ public class VAFInputer extends JDialog {
 	private JLabel[] jLVAFDestLabelArray = new JLabel[14];
 	private JSpinner[] jSPVAFScoreArray = new JSpinner[14];
 	private SpinnerNumberModel[] jpM = new SpinnerNumberModel[14];
+	private String[] info = {"1．数据通讯 （Data Communications） ",
+	"2．分布式数据处理 （Distributed Data Processing） ",
+	"3．性能 （Performance）  ",
+	"4．使用强度高的配置 （Heavily Used Configuration） ", 
+	"5．交易速度 （Transaction Rate）  ",
+	"6．在线数据输入 （Online Data Entry） ", 
+	"7．最终用户的效率 （End-User Efficiency） ", 
+	"8．在线更新（Online Update）  ",
+	"9．复杂的处理 （Complex Processing） ", 
+	"10．可重用性 （Reusability）  ",
+	"11．安装的简易性 （Installation Ease） ", 
+	"12．运行的简易性 （Operational Ease）  ",
+	"13．多场地 （Multiple Sites）  ",
+	"14．允许变更 （Facilitate Change） "};
 	private JPanel[] jpScorePanelArray = new JPanel[15];
 	ResultFrame r;
 	public VAFInputer(ResultFrame r){
 		this.r=r;
+		this.setTitle("影响因子修改");
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		int[] score = r.getCm().getVAFScore();
 		jpScoreDashboardPanel = new JPanel();
@@ -41,7 +56,7 @@ public class VAFInputer extends JDialog {
 			jpM[i] = new SpinnerNumberModel(score[i],0,5,1);
 			jSPVAFScoreArray[i] = new JSpinner(jpM[i]);
 			jpScorePanelArray[i].add(jSPVAFScoreArray[i],BorderLayout.SOUTH);
-			jLVAFDestLabelArray[i] = new JLabel("info");
+			jLVAFDestLabelArray[i] = new JLabel(info[i]);
 			jpScorePanelArray[i].add(jLVAFDestLabelArray[i],BorderLayout.NORTH);
 			jpScoreDashboardPanel.add(jpScorePanelArray[i]);
 		}

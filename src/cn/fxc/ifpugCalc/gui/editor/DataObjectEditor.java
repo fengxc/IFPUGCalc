@@ -41,9 +41,9 @@ public class DataObjectEditor extends JDialog {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new Dimension(480,540));
 		this.setSize(480, 540);
-		this.setTitle("XX±à¼­Æ÷");
 		parent =dataObjectList;
 		type = t;
+		this.setTitle(type.name()+"ÐÞ¸ÄÆ÷");
 		this.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
 		this.add(jLName);
 		this.add(jFName);
