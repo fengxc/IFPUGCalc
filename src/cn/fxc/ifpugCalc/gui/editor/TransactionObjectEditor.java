@@ -85,7 +85,7 @@ public class TransactionObjectEditor extends JDialog {
 	
 	private JButton jbFieldObjectAdd = new JButton("Ìí¼Ó");
 	private JButton jbFieldObjectRemove = new JButton("É¾³ý");
-	private TransactionType type;
+	private TransactionType transactionType;
 
 	private List<DataObject> allDO = new ArrayList<DataObject>();
 	private List<DataObject> selectedDO = new ArrayList<DataObject>();
@@ -99,8 +99,8 @@ public class TransactionObjectEditor extends JDialog {
 		this.setSize(600, 760);
 		parent = transactionObjectList;
 		resultFrame = parentForm;
-		type = t;
-		this.setTitle(type.name()+"ÐÞ¸ÄÆ÷");
+		transactionType = t;
+		this.setTitle(transactionType.name()+"ÐÞ¸ÄÆ÷");
 		this.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
 		this.add(jLName);
 		this.add(jFName);
@@ -239,7 +239,7 @@ public class TransactionObjectEditor extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(jFName.getText()!=null&&jFName.getText().length()>0){
-					TransactionObject n = new TransactionObject(jFName.getText(), type);
+					TransactionObject n = new TransactionObject(jFName.getText(), transactionType);
 					
 					for(DataObject dod:selectedDO){
 						FileReferencedElement a = new FileReferencedElement(dod, n);
@@ -265,12 +265,12 @@ public class TransactionObjectEditor extends JDialog {
 		
 	}
 
-	public TransactionType getType() {
-		return type;
+	public TransactionType getTransactionType() {
+		return transactionType;
 	}
 
-	public void setType(TransactionType type) {
-		this.type = type;
+	public void setTransactionType(TransactionType transactionType) {
+		this.transactionType = transactionType;
 	}
 	
 }

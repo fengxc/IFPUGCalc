@@ -58,15 +58,15 @@ public class DataObjectEditor extends JDialog {
 	
 	private JButton jbOK = new JButton("确定");
 	private JButton jbClose = new JButton("取消");
-	private DataType type;
+	private DataType dataType;
 
 	public DataObjectEditor(DataObjectList dataObjectList, DataType t) {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new Dimension(480,540));
 		this.setSize(480, 540);
 		parent =dataObjectList;
-		type = t;
-		this.setTitle(type.name()+"修改器");
+		dataType = t;
+		this.setTitle(dataType.name()+"修改器");
 		this.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
 		this.add(jLName);
 		this.add(jFName);
@@ -123,7 +123,7 @@ public class DataObjectEditor extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(jFName.getText()!=null&&jFName.getText().length()>0){
-					DataObject n = new DataObject(jFName.getText(), type);
+					DataObject n = new DataObject(jFName.getText(), dataType);
 					
 					for(int i = 0;i<jDTMField.getRowCount()-1;i++){
 						String fieldName = (String) jDTMField.getValueAt(i, 0);
@@ -149,12 +149,13 @@ public class DataObjectEditor extends JDialog {
 		
 	}
 
-	public DataType getType() {
-		return type;
+	public DataType getDataType() {
+		return dataType;
 	}
 
-	public void setType(DataType type) {
-		this.type = type;
+	public void setDataType(DataType dataType) {
+		this.dataType = dataType;
 	}
+
 	
 }
