@@ -1,26 +1,3 @@
-/**
- * MIT License
- * 
- * Copyright (c) 2020 fengxc
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
-
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package cn.fxc.ifpugCalc.model;
 
 import java.util.ArrayList;
@@ -32,14 +9,20 @@ public class DataObject {
 	private Integer id;
 	private String name;
 	private String fieldStr;
-	List<FieldObject> fieldList;
+	//List<FieldObject> fieldList;
+	List<String> retList;
+	List<String> detList;
+	
 	public DataObject(String name, DataType type) {
 		super();
 		this.name = name;
 		this.type = type;
 		maxDataId++;
 		id = maxDataId;
-		fieldList = new ArrayList<FieldObject>();
+		retList = new ArrayList<String>();
+		detList = new ArrayList<String>();
+		
+		//fieldList = new ArrayList<FieldObject>();
 		
 	}
 	private DataType type;
@@ -67,25 +50,25 @@ public class DataObject {
 	}
 	
 	public Complexity getComplexity(){
-		int RET=0;
-		List<String> RETList = new ArrayList<String>();
-		for(FieldObject f:fieldList){
-			String ftrStr = f.getRETName();
-			if(ftrStr==null)
-				ftrStr ="";
-			boolean hasFound = false;
-			for(String s:RETList){
-				if(s.equals(ftrStr)){
-					hasFound = true;
-					break;
-				}
-			}
-			if(!hasFound){
-				RETList.add(ftrStr);
-				RET++;
-			}
-		}
-		int DET=fieldList.size();
+		int RET=retList.size();
+//		List<String> RETList = new ArrayList<String>();
+//		for(FieldObject f:fieldList){
+//			String ftrStr = f.getRETName();
+//			if(ftrStr==null)
+//				ftrStr ="";
+//			boolean hasFound = false;
+//			for(String s:RETList){
+//				if(s.equals(ftrStr)){
+//					hasFound = true;
+//					break;
+//				}
+//			}
+//			if(!hasFound){
+//				RETList.add(ftrStr);
+//				RET++;
+//			}
+//		}
+		int DET=detList.size();
 		if(RET<=1){
 			if(DET<51)
 				return Complexity.Simple;
@@ -106,16 +89,28 @@ public class DataObject {
 		}
 		
 	}
-	public List<FieldObject> getFieldList() {
+/*	public List<FieldObject> getFieldList() {
 		return fieldList;
 	}
 	public void setFieldList(List<FieldObject> fieldList) {
 		this.fieldList = fieldList;
-	}
+	}*/
 	public String getFieldStr() {
 		return fieldStr;
 	}
 	public void setFieldStr(String fieldStr) {
 		this.fieldStr = fieldStr;
+	}
+	public List<String> getRetList() {
+		return retList;
+	}
+	public void setRetList(List<String> retList) {
+		this.retList = retList;
+	}
+	public List<String> getDetList() {
+		return detList;
+	}
+	public void setDetList(List<String> detList) {
+		this.detList = detList;
 	}
 }
