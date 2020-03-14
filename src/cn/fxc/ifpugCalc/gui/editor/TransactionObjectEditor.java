@@ -38,7 +38,8 @@ public class TransactionObjectEditor extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 4888490422801061241L;
-
+	private int editType = 0; //0新增 1修改
+	private TransactionObject ton;
 	private TransactionObjectList parent;
 	ResultFrame resultFrame;
 	private JLabel jLName = new JLabel("名称");
@@ -164,7 +165,7 @@ public class TransactionObjectEditor extends JDialog {
 		jpDataObject = new JPanel(new BorderLayout(5,5));
 		jpDataObject.add(new JLabel("FTR选择"), BorderLayout.NORTH);
 		jpDataObject.add(jLDataObject,BorderLayout.WEST);
-		JPanel FTRButtons = new JPanel(new GridLayout(2,1,5,5));
+		JPanel FTRButtons = new JPanel(new GridLayout(2,1,25,25));
 		FTRButtons.add(jbDataObjectAdd,0);
 		FTRButtons.add(jbDataObjectRemove,1);
 		jpDataObject.add(FTRButtons);
@@ -236,24 +237,41 @@ public class TransactionObjectEditor extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(jFName.getText()!=null&&jFName.getText().length()>0){
-					TransactionObject n = new TransactionObject(jFName.getText(), type);
-					
-					for(DataObject dod:selectedDO){
-						FileReferencedElement a = new FileReferencedElement(dod, n);
-						n.getFtrList().add(a);
+				if(editType == 0){
+					if(jFName.getText()!=null&&jFName.getText().length()>0){
+						TransactionObject n = new TransactionObject(jFName.getText(), type);
+						
+						for(DataObject dod:selectedDO){
+							FileReferencedElement a = new FileReferencedElement(dod, n);
+							n.getFtrList().add(a);
+						}
+						
+						for(int i = 0;i<jDETMField.getRowCount()-1;i++){
+							String fieldName = (String) jDETMField.getValueAt(i, 0);
+							n.getDetList().add(fieldName);
+						}
+						parent.addTransaction(n);
+						TransactionObjectEditor.this.dispose();
+					}
+				}else{
+					if(jFName.getText()!=null&&jFName.getText().length()>0){
+						TransactionObject n = ton;
+						n.setName(jFName.getText());
+						n.getFtrList().clear();
+						for(DataObject dod:selectedDO){
+							FileReferencedElement a = new FileReferencedElement(dod, n);
+							n.getFtrList().add(a);
+						}
+						n.getDetList().clear();
+						for(int i = 0;i<jDETMField.getRowCount()-1;i++){
+							String fieldName = (String) jDETMField.getValueAt(i, 0);
+							n.getDetList().add(fieldName);
+						}
+						parent.updateData(n);
+						TransactionObjectEditor.this.dispose();
 					}
 
-					for(int i = 0;i<jDETMField.getRowCount()-1;i++){
-						String fieldName = (String) jDETMField.getValueAt(i, 0);
-						n.getDetList().add(fieldName);
-					}
-//					for(FieldObject fod:selectedFO){
-//						TransactionDataElement a = new TransactionDataElement(fod, n);
-//						n.getDetList().add(a);
-//					}
-					parent.addTransaction(n);
-					TransactionObjectEditor.this.dispose();
+						
 				}
 			}
 		});
@@ -265,6 +283,30 @@ public class TransactionObjectEditor extends JDialog {
 			}
 		});
 		this.pack();
+	}
+	
+	public TransactionObjectEditor(TransactionObjectList transactionObjectList, ResultFrame parentForm, TransactionType t,TransactionObject n) {
+		this(transactionObjectList, parentForm, t);
+		ton=n;
+		
+		jFName.setText(ton.getName());
+//		List<String> retList = ton.getRetList();
+//		jRETMField.removeRow(0);
+//		for(String ret:retList)
+//			jRETMField.addRow(new String[]{ret});
+//		jRETMField.addRow(new String[]{""});
+		List<FileReferencedElement>ftrs = ton.getFtrList();
+		for(FileReferencedElement ftr:ftrs){
+			selectedDO.add(ftr.getReferencedFile());
+		}
+		jMSelectedDataObject =  new DefaultComboBoxModel(selectedDO.toArray());  //数据模型
+		jLSelectedDataObject.setModel(jMSelectedDataObject);
+		jDETMField.removeRow(0);
+		List<String> detList = ton.getDetList();
+		for(String det:detList)
+			jDETMField.addRow(new String[]{det});
+		jDETMField.addRow(new String[]{""});
+		editType = 1;
 	}
 
 	public TransactionType getType() {

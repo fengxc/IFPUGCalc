@@ -1,10 +1,11 @@
 package cn.fxc.ifpugCalc.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class TransactionObject {
+public class TransactionObject  implements Serializable{
 	public static Integer maxTransactionId = 0;
 
 	private Integer id;
@@ -43,7 +44,7 @@ public class TransactionObject {
 
 	@Override
 	public String toString() {
-		return  name ;
+		return  name + "[FTR:"+ftrList.size()+"]"+ "[DET:"+detList.size()+"]";
 	}
 
 	public Complexity getComplexity(){

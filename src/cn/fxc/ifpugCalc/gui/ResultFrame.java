@@ -3,13 +3,22 @@ package cn.fxc.ifpugCalc.gui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import cn.fxc.ifpugCalc.gui.list.DataObjectList;
 import cn.fxc.ifpugCalc.gui.list.TransactionObjectList;
@@ -103,7 +112,111 @@ public class ResultFrame extends JFrame{
 		JMenuItem open = new JMenuItem("打开");
 		JMenuItem save = new JMenuItem("保存");
 		file.add(open);
+		open.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JFileChooser fileChooser = new JFileChooser();
+
+		        // 设置默认显示的文件夹为当前文件夹
+		        fileChooser.setCurrentDirectory(new File("."));
+
+		        // 设置文件选择的模式（只选文件、只选文件夹、文件和文件均可选）
+		        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		        // 设置是否允许多选
+//		        fileChooser.setMultiSelectionEnabled(true);
+
+		        // 添加可用的文件过滤器（FileNameExtensionFilter 的第一个参数是描述, 后面是需要过滤的文件扩展名 可变参数）
+		        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.savedata", "savedata"));
+		        // 设置默认使用的文件过滤器
+		        //fileChooser.setFileFilter(new FileNameExtensionFilter("image(*.jpg, *.png, *.gif)", "jpg", "png", "gif"));
+
+		        // 打开文件选择框（线程将被阻塞, 直到选择框被关闭）
+		        int result = fileChooser.showOpenDialog(ResultFrame.this);
+
+		        if (result == JFileChooser.APPROVE_OPTION) {
+		            // 如果点击了"确定", 则获取选择的文件路径
+		        	try {
+			            File file = fileChooser.getSelectedFile();
+			            if (!file.exists()) {	//文件不存在则创建文件
+							return;
+			    		}
+			            FileInputStream is = new FileInputStream(file);
+			            ObjectInputStream ois = new ObjectInputStream(is);
+			            CalcManager ncm = (CalcManager) ois.readObject();
+			            ois.close();
+			            cm = ncm;
+		        	} catch (Exception e1) {
+		            	// TODO Auto-generated catch block
+		            	e1.printStackTrace();
+		            }
+		            // 如果允许选择多个文件, 则通过下面方法获取选择的所有文件
+		            // File[] files = fileChooser.getSelectedFiles();
+
+		            //msgTextArea.append("打开文件: " + file.getAbsolutePath() + "\n\n");
+		        }
+		
+			}
+		});
 		file.add(save);
+		save.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setSelectedFile(new File("1.savedata"));
+
+		        // 设置默认显示的文件夹为当前文件夹
+		        fileChooser.setCurrentDirectory(new File("."));
+
+		        // 设置文件选择的模式（只选文件、只选文件夹、文件和文件均可选）
+		        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		        // 设置是否允许多选
+//		        fileChooser.setMultiSelectionEnabled(true);
+
+		        // 添加可用的文件过滤器（FileNameExtensionFilter 的第一个参数是描述, 后面是需要过滤的文件扩展名 可变参数）
+		        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.savedata", "savedata"));
+		        // 设置默认使用的文件过滤器
+		        //fileChooser.setFileFilter(new FileNameExtensionFilter("image(*.jpg, *.png, *.gif)", "jpg", "png", "gif"));
+
+		        // 打开文件选择框（线程将被阻塞, 直到选择框被关闭）
+		        int result = fileChooser.showSaveDialog(ResultFrame.this);
+
+		        if (result == JFileChooser.APPROVE_OPTION) {
+		            // 如果点击了"确定", 则获取选择的文件路径
+		        	try {
+			            File file = fileChooser.getSelectedFile();
+				         if (file.getAbsolutePath().toUpperCase().endsWith("savedata".toUpperCase()))
+				         {
+//			        	    // 如果文件是以选定扩展名结束的，则使用原名
+//			        	  
+			        	  } else {
+//			        	    // 否则加上选定的扩展名
+//			        		  file.renameTo(new File(filepath+"."+ext));
+			        		  file = new File(file.getPath()+"."+"savedata");
+			        	  }
+			            if (!file.exists()) {	//文件不存在则创建文件
+							file.createNewFile();
+			    		}
+			            FileOutputStream os = new FileOutputStream(file);
+			            ObjectOutputStream oos = new ObjectOutputStream(os);
+			            oos.writeObject(cm);
+			            oos.flush();
+			            oos.close();
+		        	} catch (IOException e1) {
+		            	// TODO Auto-generated catch block
+		            	e1.printStackTrace();
+		            }
+		            // 如果允许选择多个文件, 则通过下面方法获取选择的所有文件
+		            // File[] files = fileChooser.getSelectedFiles();
+
+		            //msgTextArea.append("打开文件: " + file.getAbsolutePath() + "\n\n");
+		        }
+		
+			}
+		});
 		jm.add(file);
 		
 		JMenu data = new JMenu("数据管理");

@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -26,7 +28,8 @@ public class DataObjectEditor extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 6741569606317534338L;
-
+	private int editType = 0; //0新增 1修改
+	private DataObject don;
 	private DataObjectList parent;
 
 	private JLabel jLName = new JLabel("名称");
@@ -44,6 +47,7 @@ public class DataObjectEditor extends JDialog {
 
 	public DataObjectEditor(DataObjectList dataObjectList, DataType t) {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		editType = 0;
 		parent =dataObjectList;
 		type = t;
 		this.setTitle(type.name()+"修改器");
@@ -77,21 +81,41 @@ public class DataObjectEditor extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(jFName.getText()!=null&&jFName.getText().length()>0){
-					DataObject n = new DataObject(jFName.getText(), type);
-					
-					for(int i = 0;i<jRETMField.getRowCount()-1;i++){
-						String fieldName = (String) jRETMField.getValueAt(i, 0);
-						n.getRetList().add(fieldName);
+				if(editType == 0){
+					if(jFName.getText()!=null&&jFName.getText().length()>0){
+						DataObject n = new DataObject(jFName.getText(), type);
+						
+						for(int i = 0;i<jRETMField.getRowCount()-1;i++){
+							String fieldName = (String) jRETMField.getValueAt(i, 0);
+							n.getRetList().add(fieldName);
+						}
+						
+						for(int i = 0;i<jDETMField.getRowCount()-1;i++){
+							String fieldName = (String) jDETMField.getValueAt(i, 0);
+							n.getDetList().add(fieldName);
+						}
+						
+						parent.addData(n);
+						DataObjectEditor.this.dispose();
 					}
-					
-					for(int i = 0;i<jDETMField.getRowCount()-1;i++){
-						String fieldName = (String) jDETMField.getValueAt(i, 0);
-						n.getDetList().add(fieldName);
+				}else{
+					if(jFName.getText()!=null&&jFName.getText().length()>0){
+						DataObject n =don;
+						n.setName(jFName.getText());
+						n.getRetList().clear();
+						for(int i = 0;i<jRETMField.getRowCount()-1;i++){
+							String fieldName = (String) jRETMField.getValueAt(i, 0);
+							n.getRetList().add(fieldName);
+						}
+						n.getDetList().clear();
+						for(int i = 0;i<jDETMField.getRowCount()-1;i++){
+							String fieldName = (String) jDETMField.getValueAt(i, 0);
+							n.getDetList().add(fieldName);
+						}
+						
+						parent.updateData(n);
+						DataObjectEditor.this.dispose();
 					}
-					
-					parent.addData(n);
-					DataObjectEditor.this.dispose();
 				}
 			}
 		});
@@ -104,6 +128,24 @@ public class DataObjectEditor extends JDialog {
 		});
 		this.pack();
 	}
+	
+	public DataObjectEditor(DataObjectList dataObjectList, DataType t, DataObject don) {
+		this(dataObjectList,  t); 
+		this.don = don;
+		jFName.setText(don.getName());
+		List<String> retList = don.getRetList();
+		jRETMField.removeRow(0);
+		for(String ret:retList)
+			jRETMField.addRow(new String[]{ret});
+		jRETMField.addRow(new String[]{""});
+		jDETMField.removeRow(0);
+		List<String> detList = don.getDetList();
+		for(String det:detList)
+			jDETMField.addRow(new String[]{det});
+		jDETMField.addRow(new String[]{""});
+		editType = 1;
+	}
+
 
 	private void addListetener(final JTable jTable,final DefaultTableModel jDefaultTableModel) {
 		jTable.addMouseListener(new MouseListener() {

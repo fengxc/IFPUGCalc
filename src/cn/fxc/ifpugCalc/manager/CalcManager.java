@@ -1,14 +1,16 @@
 package cn.fxc.ifpugCalc.manager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.fxc.ifpugCalc.model.DataObject;
 import cn.fxc.ifpugCalc.model.DataType;
+import cn.fxc.ifpugCalc.model.FileReferencedElement;
 import cn.fxc.ifpugCalc.model.TransactionObject;
 import cn.fxc.ifpugCalc.model.TransactionType;
 
-public class CalcManager {
+public class CalcManager implements Serializable{
 
 	private List<DataObject> ilfList;
 	private List<DataObject> elfList;
@@ -61,13 +63,33 @@ public class CalcManager {
 	
 	public boolean removeDataObject(DataType d, int index){
 		if(d.equals(DataType.ILF)){
+			DataObject o = ilfList.get(index);
+			delFtr(o, eiList);
+			delFtr(o, eoList);
+			delFtr(o, eqList);
 			ilfList.remove(index);
+			
 			return true;
 		}else if(d.equals(DataType.ELF)){
 			elfList.remove(index);
 			return true;
 		}else{
 			return false;
+		}
+	}
+
+	private void delFtr(DataObject o, List<TransactionObject> tList) {
+		for(TransactionObject t:tList){
+			List<FileReferencedElement> ftrList = t.getFtrList();
+			List<FileReferencedElement> ftrListToDel = new ArrayList<FileReferencedElement>();
+			for(FileReferencedElement ftr:ftrList){
+				if(ftr.getReferencedFile().equals(o)){
+					ftrListToDel.add(ftr);
+				}
+			}
+			for(FileReferencedElement ftr:ftrListToDel){
+				ftrList.remove(ftr);
+			}
 		}
 	}
 

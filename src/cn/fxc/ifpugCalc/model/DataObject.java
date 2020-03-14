@@ -1,9 +1,10 @@
 package cn.fxc.ifpugCalc.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataObject {
+public class DataObject  implements Serializable{
 	public static Integer maxDataId = 0;
 
 	private Integer id;
@@ -46,7 +47,7 @@ public class DataObject {
 	}
 	@Override
 	public String toString() {
-		return  name ;
+		return  name + "[RET:"+retList.size()+"]"+ "[DET:"+detList.size()+"]";
 	}
 	
 	public Complexity getComplexity(){

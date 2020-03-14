@@ -1,6 +1,8 @@
 package cn.fxc.ifpugCalc.model;
 
-public class FileReferencedElement {
+import java.io.Serializable;
+
+public class FileReferencedElement  implements Serializable{
 	public static Integer maxFieldId = 0;
 	private Integer id;
 	//private String name;
@@ -27,6 +29,12 @@ public class FileReferencedElement {
 		this.parent = parent;
 	}
 	
+	public DataObject getReferencedFile() {
+		return referencedFile;
+	}
+	public void setReferencedFile(DataObject referencedFile) {
+		this.referencedFile = referencedFile;
+	}
 	@Override
 	public String toString() {
 		return parent+" referenced "+referencedFile;
