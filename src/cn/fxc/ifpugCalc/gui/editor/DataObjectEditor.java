@@ -2,7 +2,6 @@ package cn.fxc.ifpugCalc.gui.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -21,7 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import cn.fxc.ifpugCalc.gui.list.DataObjectList;
 import cn.fxc.ifpugCalc.model.DataObject;
 import cn.fxc.ifpugCalc.model.DataType;
-import cn.fxc.ifpugCalc.model.FieldObject;
 
 public class DataObjectEditor extends JDialog {
 	/**
@@ -153,37 +151,45 @@ public class DataObjectEditor extends JDialog {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 			    int rowI = jTable.rowAtPoint(e.getPoint());// 得到table的行号
 			    System.out.println(rowI);
 			    if (rowI > -1){
-			    	if(rowI==jDefaultTableModel.getRowCount()-1){
-			    		jDefaultTableModel.addRow(new String[]{"",""});
+			    	//System.out.println(e.getButton());
+			    	if (e.getButton() == MouseEvent.BUTTON3){
+			    		if(rowI!=jDefaultTableModel.getRowCount()-1){
+				    		jDefaultTableModel.removeRow(rowI);
+				    	}
+			    	}else{
+				    	if(rowI==jDefaultTableModel.getRowCount()-1){
+				    		jDefaultTableModel.addRow(new String[]{"",""});
+				    	}
+			    		
 			    	}
 			    }
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 		});

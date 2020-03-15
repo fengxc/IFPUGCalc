@@ -12,6 +12,10 @@ import cn.fxc.ifpugCalc.model.TransactionType;
 
 public class CalcManager implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8932326164541443690L;
 	private List<DataObject> ilfList;
 	private List<DataObject> elfList;
 	private List<TransactionObject> eiList;

@@ -3,6 +3,10 @@ package cn.fxc.ifpugCalc.model;
 import java.io.Serializable;
 
 public class FileReferencedElement  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4912545169012847548L;
 	public static Integer maxFieldId = 0;
 	private Integer id;
 	//private String name;

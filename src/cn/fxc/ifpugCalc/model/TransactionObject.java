@@ -6,6 +6,11 @@ import java.util.List;
 
 
 public class TransactionObject  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -967529723369997174L;
+
 	public static Integer maxTransactionId = 0;
 
 	private Integer id;

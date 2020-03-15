@@ -2,7 +2,6 @@ package cn.fxc.ifpugCalc.gui.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,9 +26,7 @@ import cn.fxc.ifpugCalc.gui.ResultFrame;
 import cn.fxc.ifpugCalc.gui.list.TransactionObjectList;
 import cn.fxc.ifpugCalc.model.DataObject;
 import cn.fxc.ifpugCalc.model.DataType;
-import cn.fxc.ifpugCalc.model.FieldObject;
 import cn.fxc.ifpugCalc.model.FileReferencedElement;
-import cn.fxc.ifpugCalc.model.TransactionDataElement;
 import cn.fxc.ifpugCalc.model.TransactionObject;
 import cn.fxc.ifpugCalc.model.TransactionType;
 
@@ -124,9 +121,9 @@ public class TransactionObjectEditor extends JDialog {
 					jMSelectedDataObject =  new DefaultComboBoxModel(selectedDO.toArray());  //数据模型
 					jLSelectedDataObject.setModel(jMSelectedDataObject);
 					//availableFO.clear();
-					for(DataObject dod:selectedDO){
+					//for(DataObject dod:selectedDO){
 						//availableFO.addAll(dod.getFieldList());
-					}
+					//}
 //					jMFieldObject =  new DefaultComboBoxModel(availableFO.toArray());  //数据模型
 //					jLFieldObject.setModel(jMFieldObject);
 				}				
@@ -143,9 +140,9 @@ public class TransactionObjectEditor extends JDialog {
 					jMSelectedDataObject =  new DefaultComboBoxModel(selectedDO.toArray());  //数据模型
 					jLSelectedDataObject.setModel(jMSelectedDataObject);
 					//availableFO.clear();
-					for(DataObject dod:selectedDO){
+					//for(DataObject dod:selectedDO){
 						//availableFO.addAll(dod.getFieldList());
-					}
+					//}
 //					jMFieldObject =  new DefaultComboBoxModel(availableFO.toArray());  //数据模型
 //					jLFieldObject.setModel(jMFieldObject);
 //					List<FieldObject> toDelete = new ArrayList<FieldObject>();
@@ -323,37 +320,42 @@ public class TransactionObjectEditor extends JDialog {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 			    int rowI = jTable.rowAtPoint(e.getPoint());// 得到table的行号
 			    System.out.println(rowI);
 			    if (rowI > -1){
-			    	if(rowI==jDefaultTableModel.getRowCount()-1){
-			    		jDefaultTableModel.addRow(new String[]{"",""});
+			    	if (e.getButton() == MouseEvent.BUTTON3){
+			    		if(rowI!=jDefaultTableModel.getRowCount()-1){
+				    		jDefaultTableModel.removeRow(rowI);
+				    	}
+			    	}else{
+				    	if(rowI==jDefaultTableModel.getRowCount()-1){
+				    		jDefaultTableModel.addRow(new String[]{"",""});
+				    	}
+			    		
 			    	}
 			    }
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 		});

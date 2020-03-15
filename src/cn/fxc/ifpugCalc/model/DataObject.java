@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataObject  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1555294133284850035L;
+
 	public static Integer maxDataId = 0;
 
 	private Integer id;

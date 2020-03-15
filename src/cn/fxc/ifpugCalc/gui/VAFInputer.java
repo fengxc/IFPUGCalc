@@ -75,7 +75,9 @@ public class VAFInputer extends JDialog {
 				for(int i=0;i<14;i++){
 					int n = (Integer) jpM[i].getValue();
 					score[i] = n;
-				}
+				}		
+				VAFInputer.this.r.getFPResult();
+
 				VAFInputer.this.dispose();
 			}
 		});

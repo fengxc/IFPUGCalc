@@ -2,7 +2,6 @@ package cn.fxc.ifpugCalc.gui.list;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.ListModel;
 
 import cn.fxc.ifpugCalc.gui.ResultFrame;
-import cn.fxc.ifpugCalc.gui.editor.DataObjectEditor;
 import cn.fxc.ifpugCalc.gui.editor.TransactionObjectEditor;
-import cn.fxc.ifpugCalc.model.DataObject;
 import cn.fxc.ifpugCalc.model.TransactionObject;
 import cn.fxc.ifpugCalc.model.TransactionType;
 
@@ -115,17 +112,20 @@ public class TransactionObjectList extends JDialog {
 		parentForm.getCm().removeTransactionObject(type, index);
 		jListModel =  new DefaultComboBoxModel(transactionObjectList.toArray());  //数据模型
 		jLDataObjectList.setModel(jListModel);
+		parentForm.getFPResult();
 	}
 
 	public void addTransaction(TransactionObject n) {
 		parentForm.getCm().addTransactionObject(n);
 		jListModel =  new DefaultComboBoxModel(transactionObjectList.toArray());  //数据模型
 		jLDataObjectList.setModel(jListModel);
+		parentForm.getFPResult();
 	}
 
 	public void updateData(TransactionObject n) {
 		jListModel =  new DefaultComboBoxModel(transactionObjectList.toArray());  //数据模型
 		jLDataObjectList.setModel(jListModel);		
+		parentForm.getFPResult();
 	}
 
 	

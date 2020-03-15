@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +24,6 @@ import cn.fxc.ifpugCalc.gui.list.TransactionObjectList;
 import cn.fxc.ifpugCalc.manager.CalcManager;
 import cn.fxc.ifpugCalc.model.DataObject;
 import cn.fxc.ifpugCalc.model.DataType;
-import cn.fxc.ifpugCalc.model.FieldObject;
 import cn.fxc.ifpugCalc.model.TransactionObject;
 import cn.fxc.ifpugCalc.model.TransactionType;
 
@@ -36,7 +34,6 @@ public class ResultFrame extends JFrame{
 	private static final long serialVersionUID = -6778490664878620755L;
 	private JPanel jpOverview;
 	private JMenuBar jmOperation;
-	private JButton jbCalc;
 	private JLabel jLResult;
 	private CalcManager cm;
 	int [][]UFPWeight = {{3,4,6},{4,5,7},{3,4,6},{7,10,15},{5,7,10}};
@@ -49,61 +46,57 @@ public class ResultFrame extends JFrame{
 		this.cm = new CalcManager();
 		
 		jpOverview = new JPanel();
-		jbCalc = new JButton("Calc!");
-		jpOverview.add(jbCalc);
-		jbCalc.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int [][]complexityNumber = new int[5][3];
-				
-				for(DataObject dod:cm.getDataObjectList(DataType.ILF)){
-					complexityNumber[0][dod.getComplexity().ordinal()]++;
-				}
-				for(DataObject dod:cm.getDataObjectList(DataType.ELF)){
-					complexityNumber[1][dod.getComplexity().ordinal()]++;
-				}
-				for(TransactionObject dod:cm.getTransactionObjectList(TransactionType.EI)){
-					complexityNumber[2][dod.getComplexity().ordinal()]++;
-				}
-				for(TransactionObject dod:cm.getTransactionObjectList(TransactionType.EO)){
-					complexityNumber[3][dod.getComplexity().ordinal()]++;
-				}
-				for(TransactionObject dod:cm.getTransactionObjectList(TransactionType.EQ)){
-					complexityNumber[4][dod.getComplexity().ordinal()]++;
-				}
-				int UFP=0;
-				for(int i=0;i<5;i++){
-					for(int j=0;j<3;j++){
-						UFP+=complexityNumber[i][j]*UFPWeight[i][j];
-					}
-				}
-				int[] score = getCm().getVAFScore();
-				int VAF = 65;
-				for(int i=0;i<14;i++){
-					VAF += score[i];
-				}
-				float fVAF = 0.01f  * VAF;
-				float FP =   (VAF * UFP)*0.01f ;
-				String result = "<html><body><p align=\"center\">估算\\复杂性&emsp;低&emsp;中&emsp;高<br/>";
-				result+="&emsp;ILF&emsp;&emsp;"+complexityNumber[0][0]+"&emsp;"+complexityNumber[0][1]+"&emsp;"+complexityNumber[0][2]+"<br/>";
-				result+="&emsp;ELF&emsp;&emsp;"+complexityNumber[1][0]+"&emsp;"+complexityNumber[1][1]+"&emsp;"+complexityNumber[1][2]+"<br/>";
-				result+="&emsp;EI&emsp;&emsp;"+complexityNumber[2][0]+"&emsp;"+complexityNumber[2][1]+"&emsp;"+complexityNumber[2][2]+"<br/>";
-				result+="&emsp;EO&emsp;&emsp;"+complexityNumber[3][0]+"&emsp;"+complexityNumber[3][1]+"&emsp;"+complexityNumber[3][2]+"<br/>";
-				result+="&emsp;EQ&emsp;&emsp;"+complexityNumber[4][0]+"&emsp;"+complexityNumber[4][1]+"&emsp;"+complexityNumber[4][2]+"<br/>";
-				result+="UFP为"+UFP+",VAF为"+fVAF+",FP为"+FP+"</p></body></html>";
-				jLResult.setText(result);
-			}
-		});
-		jLResult = new JLabel("Ready");
+		jLResult = new JLabel("");
 		jpOverview.add(jLResult);
 		this.add(jpOverview);
-
+		getFPResult();
 		this.setPreferredSize(new Dimension(450, 250));
 		this.setSize(450,250);
 	}
 
 
+	
+	public void getFPResult() {
+		int [][]complexityNumber = new int[5][3];
+		
+		for(DataObject dod:cm.getDataObjectList(DataType.ILF)){
+			complexityNumber[0][dod.getComplexity().ordinal()]++;
+		}
+		for(DataObject dod:cm.getDataObjectList(DataType.ELF)){
+			complexityNumber[1][dod.getComplexity().ordinal()]++;
+		}
+		for(TransactionObject dod:cm.getTransactionObjectList(TransactionType.EI)){
+			complexityNumber[2][dod.getComplexity().ordinal()]++;
+		}
+		for(TransactionObject dod:cm.getTransactionObjectList(TransactionType.EO)){
+			complexityNumber[3][dod.getComplexity().ordinal()]++;
+		}
+		for(TransactionObject dod:cm.getTransactionObjectList(TransactionType.EQ)){
+			complexityNumber[4][dod.getComplexity().ordinal()]++;
+		}
+		int UFP=0;
+		for(int i=0;i<5;i++){
+			for(int j=0;j<3;j++){
+				UFP+=complexityNumber[i][j]*UFPWeight[i][j];
+			}
+		}
+		int[] score = getCm().getVAFScore();
+		int VAF = 65;
+		for(int i=0;i<14;i++){
+			VAF += score[i];
+		}
+		float fVAF = 0.01f  * VAF;
+		float FP =   (VAF * UFP)*0.01f ;
+		String result = "<html><body><table><tr><td>估算\\复杂性</td><td>低</td><td>中</td><td>高</td></tr>";
+		result+="<tr><td>ILF</td><td>"+complexityNumber[0][0]+"</td><td>"+complexityNumber[0][1]+"</td><td>"+complexityNumber[0][2]+"</td></tr>";
+		result+="<tr><td>ELF</td><td>"+complexityNumber[1][0]+"</td><td>"+complexityNumber[1][1]+"</td><td>"+complexityNumber[1][2]+"</td></tr>";
+		result+="<tr><td>EI</td><td>"+complexityNumber[2][0]+"</td><td>"+complexityNumber[2][1]+"</td><td>"+complexityNumber[2][2]+"</td></tr>";
+		result+="<tr><td>EO</td><td>"+complexityNumber[3][0]+"</td><td>"+complexityNumber[3][1]+"</td><td>"+complexityNumber[3][2]+"</td></tr>";
+		result+="<tr><td>EQ</td><td>"+complexityNumber[4][0]+"</td><td>"+complexityNumber[4][1]+"</td><td>"+complexityNumber[4][2]+"</td></tr></table>";
+		result+="<p>UFP为"+UFP+",VAF为"+fVAF+",FP为"+FP+"</p></body></html>";
+		jLResult.setText(result);
+
+	}
 
 	private JMenuBar getOperationMenuBar() {
 		JMenuBar jm = new JMenuBar();
@@ -116,7 +109,7 @@ public class ResultFrame extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				JFileChooser fileChooser = new JFileChooser();
 
 		        // 设置默认显示的文件夹为当前文件夹
@@ -147,8 +140,8 @@ public class ResultFrame extends JFrame{
 			            CalcManager ncm = (CalcManager) ois.readObject();
 			            ois.close();
 			            cm = ncm;
+			            getFPResult();
 		        	} catch (Exception e1) {
-		            	// TODO Auto-generated catch block
 		            	e1.printStackTrace();
 		            }
 		            // 如果允许选择多个文件, 则通过下面方法获取选择的所有文件
@@ -164,7 +157,7 @@ public class ResultFrame extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setSelectedFile(new File("1.savedata"));
 
@@ -206,7 +199,6 @@ public class ResultFrame extends JFrame{
 			            oos.flush();
 			            oos.close();
 		        	} catch (IOException e1) {
-		            	// TODO Auto-generated catch block
 		            	e1.printStackTrace();
 		            }
 		            // 如果允许选择多个文件, 则通过下面方法获取选择的所有文件
@@ -299,6 +291,7 @@ public class ResultFrame extends JFrame{
 
 	public static void main(String[] args) {
 		ResultFrame r = new ResultFrame();
+		r.setVisible(true);
 		//r.testData(r);
 	}
 	
