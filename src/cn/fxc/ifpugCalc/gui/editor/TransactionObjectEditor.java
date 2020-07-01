@@ -95,7 +95,7 @@ public class TransactionObjectEditor extends JDialog {
 		jFName.setSize(200, 30);
 		allDO = new ArrayList<DataObject>();
 		allDO.addAll(resultFrame.getCm().getDataObjectList(DataType.ILF));
-		allDO.addAll(resultFrame.getCm().getDataObjectList(DataType.ELF));
+		allDO.addAll(resultFrame.getCm().getDataObjectList(DataType.EIF));
 		
 		jMDataObject =  new DefaultComboBoxModel(allDO.toArray());  //数据模型
 		jLDataObject = new JList();

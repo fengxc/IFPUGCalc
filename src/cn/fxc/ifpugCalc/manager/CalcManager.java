@@ -17,7 +17,7 @@ public class CalcManager implements Serializable{
 	 */
 	private static final long serialVersionUID = -8932326164541443690L;
 	private List<DataObject> ilfList;
-	private List<DataObject> elfList;
+	private List<DataObject> eifList;
 	private List<TransactionObject> eiList;
 	private List<TransactionObject> eoList;
 	private List<TransactionObject> eqList;
@@ -25,7 +25,7 @@ public class CalcManager implements Serializable{
 
 	public CalcManager() {
 		ilfList = new ArrayList<DataObject>();
-		elfList = new ArrayList<DataObject>();
+		eifList = new ArrayList<DataObject>();
 		eiList = new ArrayList<TransactionObject>();
 		eoList = new ArrayList<TransactionObject>();
 		eqList = new ArrayList<TransactionObject>();
@@ -35,8 +35,8 @@ public class CalcManager implements Serializable{
 	public List<DataObject> getDataObjectList(DataType t){
 		if(t.equals(DataType.ILF)){
 			return ilfList;
-		}else if(t.equals(DataType.ELF)){
-			return elfList;
+		}else if(t.equals(DataType.EIF)){
+			return eifList;
 		}else
 			return null;
 	}
@@ -55,8 +55,8 @@ public class CalcManager implements Serializable{
 		if(o.getType().equals(DataType.ILF)){
 			ilfList.add(o);
 			return true;
-		}else if(o.getType().equals(DataType.ELF)){
-			elfList.add(o);
+		}else if(o.getType().equals(DataType.EIF)){
+			eifList.add(o);
 			return true;
 		}else{
 			return false;
@@ -74,8 +74,8 @@ public class CalcManager implements Serializable{
 			ilfList.remove(index);
 			
 			return true;
-		}else if(d.equals(DataType.ELF)){
-			elfList.remove(index);
+		}else if(d.equals(DataType.EIF)){
+			eifList.remove(index);
 			return true;
 		}else{
 			return false;

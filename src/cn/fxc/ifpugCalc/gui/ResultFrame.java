@@ -36,7 +36,7 @@ public class ResultFrame extends JFrame{
 	private JMenuBar jmOperation;
 	private JLabel jLResult;
 	private CalcManager cm;
-	int [][]UFPWeight = {{3,4,6},{4,5,7},{3,4,6},{7,10,15},{5,7,10}};
+	int [][]UFPWeight = {{7,10,15},{5,7,10},{3,4,6},{4,5,7},{3,4,6}};
 	public ResultFrame(){
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -62,7 +62,7 @@ public class ResultFrame extends JFrame{
 		for(DataObject dod:cm.getDataObjectList(DataType.ILF)){
 			complexityNumber[0][dod.getComplexity().ordinal()]++;
 		}
-		for(DataObject dod:cm.getDataObjectList(DataType.ELF)){
+		for(DataObject dod:cm.getDataObjectList(DataType.EIF)){
 			complexityNumber[1][dod.getComplexity().ordinal()]++;
 		}
 		for(TransactionObject dod:cm.getTransactionObjectList(TransactionType.EI)){
@@ -89,7 +89,7 @@ public class ResultFrame extends JFrame{
 		float FP =   (VAF * UFP)*0.01f ;
 		String result = "<html><body><table><tr><td>估算\\复杂性</td><td>低</td><td>中</td><td>高</td></tr>";
 		result+="<tr><td>ILF</td><td>"+complexityNumber[0][0]+"</td><td>"+complexityNumber[0][1]+"</td><td>"+complexityNumber[0][2]+"</td></tr>";
-		result+="<tr><td>ELF</td><td>"+complexityNumber[1][0]+"</td><td>"+complexityNumber[1][1]+"</td><td>"+complexityNumber[1][2]+"</td></tr>";
+		result+="<tr><td>EIF</td><td>"+complexityNumber[1][0]+"</td><td>"+complexityNumber[1][1]+"</td><td>"+complexityNumber[1][2]+"</td></tr>";
 		result+="<tr><td>EI</td><td>"+complexityNumber[2][0]+"</td><td>"+complexityNumber[2][1]+"</td><td>"+complexityNumber[2][2]+"</td></tr>";
 		result+="<tr><td>EO</td><td>"+complexityNumber[3][0]+"</td><td>"+complexityNumber[3][1]+"</td><td>"+complexityNumber[3][2]+"</td></tr>";
 		result+="<tr><td>EQ</td><td>"+complexityNumber[4][0]+"</td><td>"+complexityNumber[4][1]+"</td><td>"+complexityNumber[4][2]+"</td></tr></table>";
@@ -222,18 +222,18 @@ public class ResultFrame extends JFrame{
 
 			}
 		});
-		JMenuItem elf = new JMenuItem("ELF管理");
-		elf.addActionListener(new ActionListener() {
+		JMenuItem eif = new JMenuItem("EIF管理");
+		eif.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DataObjectList i = new DataObjectList(ResultFrame.this, DataType.ELF);
+				DataObjectList i = new DataObjectList(ResultFrame.this, DataType.EIF);
 				i.setVisible(true);
 
 			}
 		});
 		data.add(ilf);
-		data.add(elf);
+		data.add(eif);
 		jm.add(data);
 
 		JMenu transaction = new JMenu("事务管理");
@@ -300,7 +300,7 @@ public class ResultFrame extends JFrame{
 /*	private void testData(ResultFrame r) {
 		DataObject do1 = new DataObject("cat", DataType.ILF);
 		do1.getFieldList().add(new FieldObject("age", do1));
-		DataObject do2 = new DataObject("catFood", DataType.ELF);
+		DataObject do2 = new DataObject("catFood", DataType.EIF);
 		do2.getFieldList().add(new FieldObject("productedDate", do2));
 
 		r.getCm().addDataObject(do1);
